@@ -13,8 +13,6 @@ build:
     - cmake
     - libgtk2.0-0
     - libopenmpi-dev
-    - software-properties-common
-    - python3-launchpadlib
   python_version: "3.11"
   python_packages:
     - transformers
@@ -25,15 +23,20 @@ build:
     - mmengine
     - einops
     - kornia
-    - notebook
-    - pyngrok
-    - pickleshare
-    - ipywidgets
-    - imageio-ffmpeg
-    - pandas
-    - numpy==1.23.5
-    - opencv-python
+    - torch
+    - torchvision
+    - flash-attn
+    - timm
+    - tqdm
+    - ftfy
+    - gdown
+    - pre-commit
+    - pyav
+    - tensorboard
+    - wandb
   run:
     - git clone https://huggingface.co/DeepFloyd/t5-v1_1-xxl /weights/t5_ckpts/t5-v1_1-xxl
+    - pip install flash-attn --no-build-isolation
+    - pip install -v --disable-pip-version-check --no-cache-dir --no-build-isolation --config-settings "--build-option=--cpp_ext" --config-settings "--build-option=--cuda_ext" git+https://github.com/NVIDIA/apex.git
     - aria2c --console-log-level=error -c -x 16 -s 16 -k 1M https://huggingface.co/hpcai-tech/Open-Sora/resolve/main/OpenSora-v1-HQ-16x512x512.pth -d /weights -o OpenSora-v1-HQ-16x512x512.pth
 predict: "predict.py:Predictor"
