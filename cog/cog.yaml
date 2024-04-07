@@ -39,4 +39,5 @@ build:
     - pip install flash-attn --no-build-isolation
     - pip install -v --disable-pip-version-check --no-cache-dir --no-build-isolation --config-settings "--build-option=--cpp_ext" --config-settings "--build-option=--cuda_ext" git+https://github.com/NVIDIA/apex.git
     - aria2c --console-log-level=error -c -x 16 -s 16 -k 1M https://huggingface.co/hpcai-tech/Open-Sora/resolve/main/OpenSora-v1-HQ-16x512x512.pth -d /weights -o OpenSora-v1-HQ-16x512x512.pth
+    - aria2c --console-log-level=error -c -x 16 -s 16 -k 1M https://huggingface.co/hpcai-tech/Open-Sora/resolve/main/OpenSora-v1-HQ-16x256x256.pth -d /weights -o OpenSora-v1-HQ-16x256x256.pth
 predict: "predict.py:Predictor"

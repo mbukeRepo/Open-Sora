@@ -58,16 +58,16 @@ class Predictor(BasePredictor):
             time_scale=1.0,
             enable_flashattn=True,
             enable_layernorm_kernel=True,
-            from_pretrained="PRETRAINED_MODEL",
+            from_pretrained="/weights/OpenSora-v1-HQ-16x256x256.pth",
         )
         self.vae = dict(
             type="VideoAutoencoderKL",
-            from_pretrained="stabilityai/sd-vae-ft-ema",
+            from_pretrained="/weights/stabilityai/sd-vae-ft-ema",
             micro_batch_size=4,
         )
         self.text_encoder = dict(
             type="t5",
-            from_pretrained="DeepFloyd/t5-v1_1-xxl",
+            from_pretrained="/weights/DeepFloyd/t5-v1_1-xxl",
             model_max_length=120,
         )
         self.scheduler = dict(
@@ -91,47 +91,16 @@ class Predictor(BasePredictor):
             time_scale=1.0,
             enable_flashattn=True,
             enable_layernorm_kernel=True,
-            from_pretrained="PRETRAINED_MODEL"
+            from_pretrained="/weights/OpenSora-v1-HQ-16x512x512.pth"
         )
         self.vae = dict(
             type="VideoAutoencoderKL",
-            from_pretrained="stabilityai/sd-vae-ft-ema",
+            from_pretrained="/weights/stabilityai/sd-vae-ft-ema",
             micro_batch_size=2,
         )
         self.text_encoder = dict(
             type="t5",
-            from_pretrained="DeepFloyd/t5-v1_1-xxl",
-            model_max_length=120,
-        )
-        self.scheduler = dict(
-            type="iddpm",
-            num_sampling_steps=100,
-            cfg_scale=7.0,
-        )
-        self.dtype = "fp16"
-
-    def load_64_512_512(self):
-        self.num_frames = 64
-        self.fps = 24 // 2
-        self.image_size = (512, 512)
-
-        # Define model
-        self.model = dict(
-            type="STDiT-XL/2",
-            space_scale=1.0,
-            time_scale=2 / 3,
-            enable_flashattn=True,
-            enable_layernorm_kernel=True,
-            from_pretrained="PRETRAINED_MODEL",
-        )
-        self.vae = dict(
-            type="VideoAutoencoderKL",
-            from_pretrained="stabilityai/sd-vae-ft-ema",
-            micro_batch_size=128,
-        )
-        self.text_encoder = dict(
-            type="t5",
-            from_pretrained="DeepFloyd/t5-v1_1-xxl",
+            from_pretrained="/weights/DeepFloyd/t5-v1_1-xxl",
             model_max_length=120,
         )
         self.scheduler = dict(
@@ -147,8 +116,7 @@ class Predictor(BasePredictor):
                 default="A serene underwater scene featuring a sea turtle swimming through a coral reef. The turtle, with its greenish-brown shell, is the main focus of the video, swimming gracefully towards the right side of the frame. The coral reef, teeming with life, is visible in the background, providing a vibrant and colorful backdrop to the turtle's journey. Several small fish, darting around the turtle, add a sense of movement and dynamism to the scene. The video is shot from a slightly elevated angle, providing a comprehensive view of the turtle's surroundings. The overall style of the video is calm and peaceful, capturing the beauty and tranquility of the underwater world."),
             resolution: str = Input(default="16×512×512", choices=[
                 "16×512×512",
-                "16×256×256",
-                "64x512x512"
+                "16×256×256"
             ]),
             seed: int = Input(default=1234),
     ) -> Path:
