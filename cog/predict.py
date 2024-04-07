@@ -19,7 +19,6 @@ class Predictor(BasePredictor):
         torch.backends.cuda.matmul.allow_tf32 = True
         torch.backends.cudnn.allow_tf32 = True
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
-        self.dtype = to_torch_dtype(self.dtype)
 
     def setup_weights(self, resolution: str):
         match resolution:
@@ -159,6 +158,7 @@ class Predictor(BasePredictor):
 
         input_size = (self.num_frames, *self.image_size)
         self.latent_size = self.vae.get_latent_size(input_size)
+        self.dtype = to_torch_dtype(self.dtype)
 
         prompts = [prompt]
         samples = self.scheduler.sample(
