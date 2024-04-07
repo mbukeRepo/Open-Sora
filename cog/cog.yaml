@@ -1,0 +1,39 @@
+build:
+  gpu: true
+  system_packages:
+    - gcc
+    - g++
+    - aria2
+    - git
+    - git-lfs
+    - wget
+    - libgl1
+    - libglib2.0-0
+    - ffmpeg
+    - cmake
+    - libgtk2.0-0
+    - libopenmpi-dev
+    - software-properties-common
+    - python3-launchpadlib
+  python_version: "3.11"
+  python_packages:
+    - transformers
+    - diffusers
+    - accelerate
+    - ninja
+    - colossalai
+    - mmengine
+    - einops
+    - kornia
+    - notebook
+    - pyngrok
+    - pickleshare
+    - ipywidgets
+    - imageio-ffmpeg
+    - pandas
+    - numpy==1.23.5
+    - opencv-python
+  run:
+    - git clone https://huggingface.co/DeepFloyd/t5-v1_1-xxl /weights/t5_ckpts/t5-v1_1-xxl
+    - aria2c --console-log-level=error -c -x 16 -s 16 -k 1M https://huggingface.co/hpcai-tech/Open-Sora/resolve/main/OpenSora-v1-HQ-16x512x512.pth -d /weights -o OpenSora-v1-HQ-16x512x512.pth
+predict: "predict.py:Predictor"
